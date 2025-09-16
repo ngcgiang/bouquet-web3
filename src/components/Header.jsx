@@ -5,8 +5,7 @@ import { contractAddresses } from "../contracts/contractData";
 const Header = () => {
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount();
-  
-  // Contract address from contractData
+
   const contractAddress = contractAddresses;
   const etherscanUrl = `https://sepolia.etherscan.io/address/${contractAddress}`;
 
@@ -20,7 +19,12 @@ const Header = () => {
 
   return (
     <header className="shadow-lg px-6 py-4 mx-7" style={{ backgroundColor: '#3e2960' }}>
-      <div className="flex items-center justify-between">
+      <div
+        className="
+          flex flex-col gap-4
+          md:flex-row md:items-center md:justify-between
+        "
+      >
         {/* Left side - Title and Contract Address */}
         <div className="flex items-center space-x-6">
           <h1 className="text-2xl font-bold" style={{ color: '#e6c6d4' }}>You deserve</h1>
@@ -39,7 +43,7 @@ const Header = () => {
         {/* Right side - User Account */}
         <div className="flex items-center">
           {isConnected ? (
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:space-x-4">
               <div className="border px-3 py-2 rounded-lg" style={{ backgroundColor: '#704b91', borderColor: '#a65e9e', color: '#e6c6d4' }}>
                 <span className="text-sm">Connected: </span>
                 <span className="font-mono">{shortenAddress(address)}</span>

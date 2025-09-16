@@ -196,7 +196,7 @@ const FlowerMinter = () => {
 
   return (
     <div className='max-w-2xl mx-auto'>
-      <div className='bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm border border-purple-500/30 rounded-xl p-8 shadow-2xl'>
+      <div className='bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm border border-purple-500/30 rounded-xl p-4 shadow-2xl'>
         <div className='text-center mb-2'>
           <div className='text-6xl mb-4'>🌸</div>
           <h2 className='text-4xl font-bold text-white mb-2'>You Deserve a Flower</h2>

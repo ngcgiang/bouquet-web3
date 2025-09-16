@@ -4,6 +4,7 @@ import './App.css'
 import Header from './components/Header'
 import FlowerMinter from './components/FlowerMinter'
 import OwnerPanel from './components/OwnerPanel';
+import Footer from './components/Footer';
 
 
 // 1. Get projectId
@@ -47,20 +48,16 @@ createAppKit({
 
 function App() {
   return (
-    <div style={{ backgroundColor: '#1f1b3b', minHeight: '100vh' }}>
+    <div className="flex flex-col" style={{ backgroundColor: '#1f1b3b', minHeight: '100vh' }}>
       <Header />
       
-      <main className='px-6 py-8'>
+      <main className='flex-1 px-6 pt-8 pb-2'>
         <FlowerMinter />
-        <div className='my-8'></div>
+        <div className='mt-8 mb-2'></div>
         <OwnerPanel />
       </main>
 
-      <footer className='mt-auto px-6 py-4'>
-        <div className='max-w-4xl mx-auto text-center'>
-          <p className='text-sm' style={{ color: '#e6c6d4' }}>&copy; 2024 Your Company</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
