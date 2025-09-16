@@ -9,68 +9,9 @@ const FlowerMinter = () => {
   const [isMinting, setIsMinting] = useState(false);
   const [hasReceived, setHasReceived] = useState(false);
   const [checkingStatus, setCheckingStatus] = useState(false);
-  const [nftImage, setNftImage] = useState(null);
-  const [nftMetadata, setNftMetadata] = useState(null);
-  const [loadingImage, setLoadingImage] = useState(false);
 
-  // Fetch NFT metadata and image for users who have received a flower
-  const fetchNftData = useCallback(async () => {
-    if (!isConnected || !address || !hasReceived) return;
-    
-    setLoadingImage(true);
-    try {
-      const rpcUrl = import.meta.env.VITE_ALCHEMY_RPC_URL;
-      const provider = new JsonRpcProvider(rpcUrl);
-      const contract = new Contract(contractAddresses, abi, provider);
-      
-      // Get user's balance to confirm they have an NFT
-      const balance = await contract.balanceOf(address);
-      
-      if (balance > 0) {
-        // Find the user's token by checking Transfer events
-        // This is a simple approach - in production you'd want more efficient querying
-        const totalSupply = await contract.totalSupply();
-        
-        for (let i = 1; i <= totalSupply; i++) {
-          try {
-            const owner = await contract.ownerOf(i);
-            if (owner.toLowerCase() === address.toLowerCase()) {
-              // Found user's token, get metadata
-              const tokenURI = await contract.tokenURI(i);
-              console.log('Token URI:', tokenURI);
-              
-              // Fetch metadata from IPFS or HTTP
-              let metadataUrl = tokenURI;
-              if (tokenURI.startsWith('ipfs://')) {
-                metadataUrl = `https://ipfs.io/ipfs/${tokenURI.replace('ipfs://', '')}`;
-              }
-              
-              const response = await fetch(metadataUrl);
-              if (response.ok) {
-                const metadata = await response.json();
-                setNftMetadata(metadata);
-                
-                // Get image URL
-                let imageUrl = metadata.image;
-                if (imageUrl && imageUrl.startsWith('ipfs://')) {
-                  imageUrl = `https://ipfs.io/ipfs/${imageUrl.replace('ipfs://', '')}`;
-                }
-                setNftImage(imageUrl);
-              }
-              break;
-            }
-          } catch (error) {
-            // Token might not exist, continue to next
-            continue;
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching NFT data:', error);
-    } finally {
-      setLoadingImage(false);
-    }
-  }, [isConnected, address, hasReceived]);
+  // Check if user has already received a flower
+  const checkFlowerStatus = useCallback(async () => {
     if (!isConnected || !address) return;
     
     setCheckingStatus(true);
