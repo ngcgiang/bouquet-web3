@@ -3,6 +3,7 @@ import { EthersAdapter } from "@reown/appkit-adapter-ethers";
 import './App.css'
 import Header from './components/Header'
 import FlowerMinter from './components/FlowerMinter'
+import OwnerPanel from './components/OwnerPanel';
 
 
 // 1. Get projectId
@@ -51,6 +52,8 @@ function App() {
       
       <main className='px-6 py-8'>
         <FlowerMinter />
+        <div className='my-8'></div>
+        <OwnerPanel />
       </main>
 
       <footer className='mt-auto px-6 py-4'>
