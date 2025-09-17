@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Facebook, Mail } from "lucide-react";
+import { Github, Instagram, Mail } from "lucide-react";
 
 
 const Footer = () => {
@@ -24,17 +24,17 @@ const Footer = () => {
           <span className="text-sm font-medium" style={{ color: '#e6c6d4' }}>@ngcgiang</span>
         </a>
 
-        {/* Facebook */}
+        {/* Instagram */}
         <a
-          href="https://facebook.com/ngcgiang"
+          href="https://www.instagram.com/ngcgiang_._._/"
           target="_blank"
           rel="noopener noreferrer"
           className="group flex items-center space-x-2 transition-all duration-300 hover:scale-105"
         >
           <div className="p-2 rounded-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 border border-purple-400/30 group-hover:border-purple-300/60 transition-all duration-300">
-            <Facebook className="w-4 h-4 text-pink-200 group-hover:text-purple-200 transition-colors duration-300" />
+            <Instagram className="w-4 h-4 text-pink-200 group-hover:text-purple-200 transition-colors duration-300" />
           </div>
-          <span className="text-sm font-medium" style={{ color: '#e6c6d4' }}>@ngcgiang</span>
+          <span className="text-sm font-medium" style={{ color: '#e6c6d4' }}>@ngcgiang_._._</span>
         </a>
 
         {/* Gmail */}
@@ -80,16 +80,16 @@ const Footer = () => {
           </div>
         </a>
 
-        {/* Facebook */}
+        {/* Instagram */}
         <a
-          href="https://facebook.com/ngcgiang"
+          href="https://www.instagram.com/ngcgiang_._._/"
           target="_blank"
           rel="noopener noreferrer"
           className="group transition-all duration-300 hover:scale-105"
-          title="Facebook: @ngcgiang"
+          title="Instagram: @ngcgiang_._._"
         >
           <div className="p-2 rounded-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 border border-purple-400/30 group-hover:border-purple-300/60 transition-all duration-300">
-            <Facebook className="w-4 h-4 text-pink-200 group-hover:text-purple-200 transition-colors duration-300" />
+            <Instagram className="w-4 h-4 text-pink-200 group-hover:text-purple-200 transition-colors duration-300" />
           </div>
         </a>
 
