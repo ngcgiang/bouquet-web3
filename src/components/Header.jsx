@@ -18,7 +18,7 @@ const Header = () => {
   };
 
   return (
-    <header className="shadow-lg px-6 py-4 mx-7" style={{ backgroundColor: '#3e2960' }}>
+    <header className="shadow-lg px-6 py-4 mx-7 rounded-bl-2xl rounded-br-2xl" style={{ backgroundColor: '#3e2960' }}>
       <div
         className="
           flex flex-col gap-4

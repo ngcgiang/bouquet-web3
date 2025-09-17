@@ -12,6 +12,9 @@ const FlowerMinter = () => {
   const [checkingStatus, setCheckingStatus] = useState(false);
   const [justMinted, setJustMinted] = useState(false);
   const [mintedFlowerData, setMintedFlowerData] = useState(null);
+  const [showFlowerOfTheDay, setShowFlowerOfTheDay] = useState(false);
+  const [flowerOfTheDayData, setFlowerOfTheDayData] = useState(null);
+  const [loadingFlowerOfTheDay, setLoadingFlowerOfTheDay] = useState(false);
 
   // Pinata gateway URL
   const PINATA_GATEWAY = "https://green-peculiar-quail-771.mypinata.cloud/ipfs/";
@@ -185,7 +188,42 @@ const FlowerMinter = () => {
     }
   };
 
-
+  const getFlowerOfTheDay = async () => {
+    setLoadingFlowerOfTheDay(true);
+    try {
+      const randomCID = getRandomCID();
+      if (!randomCID) {
+        alert('No available flowers to show. Please contact the owner.');
+        return;
+      }
+      const metadataURI = `ipfs://${randomCID}`;
+      const flowerData = await fetchMetadataFromIPFS(metadataURI);
+      const imageUrl = getImageUrlFromMetadata(flowerData);
+      setFlowerOfTheDayData({metadata: flowerData, imageUrl});
+      
+      // Add smooth transition effect
+      setTimeout(() => {
+        setShowFlowerOfTheDay(true);
+        // Smooth scroll to the flower section after it appears
+        setTimeout(() => {
+          const flowerElement = document.querySelector('[data-flower-display]');
+          if (flowerElement) {
+            flowerElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center',
+              inline: 'nearest'
+            });
+          }
+        }, 200);
+      }, 100);
+      
+    } catch (error) {
+      console.error('Error fetching flower of the day:', error);
+      alert('Failed to load flower of the day. Please try again.');
+    } finally {
+      setLoadingFlowerOfTheDay(false);
+    }
+  };
 
   // Check flower status when component mounts or when connection changes
   useEffect(() => {
@@ -205,8 +243,36 @@ const FlowerMinter = () => {
 
         {!isConnected ? (
           <div className='text-center py-8'>
-            <p className='text-purple-300 mb-4'>Please connect your wallet to receive your flower</p>
-            <div className='w-16 h-16 mx-auto border-4 border-purple-500/30 border-t-purple-400 rounded-full animate-spin'></div>
+            <div className='p-4 bg-purple-900/20 rounded-lg border border-purple-500/30'>
+              <p className='text-purple-200 mb-2 leading-relaxed'>
+                You need somewhere to keep this flower, right? Connect your wallet first 🌷
+              </p>
+              <p className='text-xs text-purple-300'>
+                (Don't worry — this digital wallet is just for flowers, not your personal funds.)
+              </p>
+            </div>
+            <div className='mt-4'>
+              <p className='text-purple-200 mb-3'>Or you just want to see a flower today 🌼</p>
+              <button
+                onClick={getFlowerOfTheDay}
+                disabled={loadingFlowerOfTheDay}
+                className='font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed'
+                style={{ 
+                  backgroundColor: '#a65e9e', 
+                  color: '#e6c6d4',
+                  boxShadow: '0 5px 15px rgba(166, 94, 158, 0.3)'
+                }}
+              >
+                {loadingFlowerOfTheDay ? (
+                  <>
+                    <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block mr-2'></div>
+                    Loading...
+                  </>
+                ) : (
+                  'Flower of the day'
+                )}
+              </button>
+            </div>
           </div>
         ) : checkingStatus ? (
           <div className='text-center py-8'>
@@ -302,6 +368,86 @@ const FlowerMinter = () => {
           </div>
         )}
       </div>
+
+      {/* Flower of the Day Display for Guests */}
+      {showFlowerOfTheDay && flowerOfTheDayData && (
+        <div 
+          data-flower-display
+          className='mt-6 bg-gradient-to-br from-pink-900/30 to-purple-900/30 backdrop-blur-sm border border-pink-500/30 rounded-xl p-6 shadow-2xl transform transition-all duration-700 ease-in-out animate-in slide-in-from-bottom-4 fade-in'
+        >
+          <div className='text-center'>
+            <div className='text-4xl mb-3 animate-bounce'>🌼</div>
+            <h3 className='text-2xl font-bold text-white mb-2 transition-all duration-500 ease-in-out'>Flower of the Day</h3>
+            <p className='text-pink-200 text-sm mb-4 transition-all duration-500 ease-in-out delay-100'>A beautiful flower to brighten your day!</p>
+            
+            {flowerOfTheDayData.imageUrl && (
+              <div className='mb-4 transition-all duration-600 ease-in-out delay-200 transform'>
+                <div className='bg-white/10 rounded-lg p-4 max-w-sm mx-auto hover:scale-105 transition-transform duration-300'>
+                  <img 
+                    src={flowerOfTheDayData.imageUrl} 
+                    alt="Flower of the Day" 
+                    className='w-full h-auto rounded-lg shadow-lg transition-all duration-500 ease-in-out hover:shadow-2xl'
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      console.error('Failed to load flower image');
+                    }}
+                  />
+                  {flowerOfTheDayData.metadata?.name && (
+                    <p className='text-white font-semibold mt-3 transition-all duration-500 ease-in-out delay-300'>{flowerOfTheDayData.metadata.name}</p>
+                  )}
+                  {flowerOfTheDayData.metadata?.description && (
+                    <p className='text-pink-200 text-sm mt-2 transition-all duration-500 ease-in-out delay-400'>{flowerOfTheDayData.metadata.description}</p>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            <div className='flex justify-center space-x-4 transition-all duration-500 ease-in-out delay-500'>
+              <button
+                onClick={() => {
+                  // Add exit animation before hiding
+                  const element = document.querySelector('[data-flower-display]');
+                  if (element) {
+                    element.classList.add('animate-out', 'slide-out-to-bottom-4', 'fade-out');
+                    setTimeout(() => setShowFlowerOfTheDay(false), 300);
+                  } else {
+                    setShowFlowerOfTheDay(false);
+                  }
+                }}
+                className='font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg'
+                style={{ 
+                  backgroundColor: '#704b91', 
+                  color: '#e6c6d4'
+                }}
+              >
+                Close
+              </button>
+              <button
+                onClick={getFlowerOfTheDay}
+                disabled={loadingFlowerOfTheDay}
+                className='font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50'
+                style={{ 
+                  backgroundColor: '#a65e9e', 
+                  color: '#e6c6d4'
+                }}
+              >
+                {loadingFlowerOfTheDay ? (
+                  <>
+                    <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block mr-2'></div>
+                    Loading...
+                  </>
+                ) : (
+                  'Another Flower 🌸'
+                )}
+              </button>
+            </div>
+            
+            <p className='text-xs text-pink-300 mt-4 transition-all duration-500 ease-in-out delay-600'>
+              💡 Want to own a flower like this? Connect your wallet above to receive your own NFT!
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
