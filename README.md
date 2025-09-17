@@ -1,12 +1,29 @@
-# React + Vite
+# You Deserve a Flower 🌸
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack Web3 NFT dApp that gifts unique flower NFTs to users on the Ethereum Sepolia testnet.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project allows users to receive beautiful, randomly-selected flower NFTs completely free. Each user can only mint one NFT per wallet to keep the experience special and fair.
 
-## Expanding the ESLint configuration
+Built with modern Web3 technologies, the dApp features automated owner-signed transactions for gasless user experience, IPFS/Pinata integration for decentralized metadata storage, and a polished React frontend with smooth animations.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Note:** This is not the complete version of the project. I am currently developing additional features and improvements.
+
+## Tech Stack
+
+- **Frontend**: React + Vite + Tailwind CSS
+- **Blockchain**: Solidity (OpenZeppelin ERC-721), Ethers.js v6
+- **Wallet Integration**: Reown AppKit (WalletConnect)
+- **Storage**: IPFS via Pinata
+- **Network**: Ethereum Sepolia Testnet
+
+## Features
+
+- 🌸 **Free NFT minting** - Gasless experience for users
+- 🔒 **One flower per wallet** - Fair distribution system
+- 🖼️ **IPFS-based storage** - Decentralized metadata and images
+- 👑 **Owner panel** - Easy content management interface
+- 📱 **Responsive design** - Smooth animations and mobile-friendly
+- 🔗 **Etherscan integration** - Direct blockchain explorer links
+- 🌼 **Flower of the day** - Preview feature for non-connected users
